@@ -15,6 +15,8 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var searchTextField: UITextField!
     
+    var weatherManager = WeatherManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         searchTextField.delegate = self
@@ -30,11 +32,15 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
     //функция делегата (в названии есть Should"), которая вызывается в момент нажатия кнопки возврата (в данный момент это кнопка "Go" на экранной клавиатуре)
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         searchTextField.endEditing(true)
-        print(searchTextField.text!)
+//        print(searchTextField.text!)
+        if let city = searchTextField.text {
+            weatherManager.feachWeather(cityName: city)
+        }
+
         return true
     }
     
-    //функция делегата (в названии есть Should") - окончание ввода текст в текстовое поле
+    //функция делегата (в названии есть "Should") - окончание ввода текст в текстовое поле
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         //если в текстовом поле остался какой-то текст, то возвращаем true
         if textField.text == "" {
@@ -49,7 +55,9 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         
         //используйте searchTextField для поиска погоды для этого города
-        
+//        if let city = searchTextField.text {
+//            weatherManager.feachWeather(cityName: city)
+//        }
         searchTextField.text = ""   //очищаем строку поиска после нажатия кнопки "Go" на экранной клавиатуре или кнопки с изображением лупы
     }
 }
