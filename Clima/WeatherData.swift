@@ -9,7 +9,7 @@
 import Foundation
 
 //каждая структура, предназначенная для хранения данных из результатов JSON-запроса должна быть подписана на протокол Decodable
-struct WeatherData: Decodable {
+struct WeatherData: Codable {   //Codable - это Typealias, т.е. всевдоним типа, который заменяет сразу два протокола - Decodable и Encodable
     let name: String
     let main: Main
     let weather: [Weather]  //это когда в результате JSON-запроса есть массив, состоящий из одного элемента:
@@ -23,10 +23,10 @@ struct WeatherData: Decodable {
     ],*/
 }
 
-struct Main: Decodable {
+struct Main: Codable {
     let temp: Double
 }
-struct Weather: Decodable {
+struct Weather: Codable {
     let description: String
     let id: Int
 }

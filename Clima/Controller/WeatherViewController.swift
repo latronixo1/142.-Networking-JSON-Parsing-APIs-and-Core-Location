@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WeatherViewController: UIViewController, UITextFieldDelegate {
+class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManagerDelegate {
 
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
@@ -19,6 +19,8 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        weatherManager.delegate = self
         searchTextField.delegate = self
         // Do any additional setup after loading the view.
     }
@@ -59,6 +61,19 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
 //            weatherManager.feachWeather(cityName: city)
 //        }
         searchTextField.text = ""   //очищаем строку поиска после нажатия кнопки "Go" на экранной клавиатуре или кнопки с изображением лупы
+    }
+    
+    func didUpdateWeather(_ weatherManager: WeatherManager, _ weather: WeatherModel) {
+        //print(weather.temperature)
+        //обновление погоды (через интернет) напрямую на пользовательский запрещено, только посредством диспетчера очереди
+        DispatchQueue.main.async {
+            self.temperatureLabel.text = weather.temperatureString
+            self.conditionImageView.image = UIImage(systemName: weather.conditionName)
+        }
+    }
+    
+    func didFailWithError(error: Error) {
+        print(error)
     }
 }
 
