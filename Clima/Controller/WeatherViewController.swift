@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManagerDelegate {
+class WeatherViewController: UIViewController, WeatherManagerDelegate {
 
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
@@ -24,11 +24,13 @@ class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManag
         searchTextField.delegate = self
         // Do any additional setup after loading the view.
     }
-
+}
+//MARK: - UITextFieldDelegate
+extension WeatherViewController: UITextFieldDelegate {
     //нажатие кнопки с изображением лупы
     @IBAction func searchPressed(_ sender: UIButton) {
         searchTextField.endEditing(true)
-        print(searchTextField.text!) 
+        print(searchTextField.text!)
     }
     
     //функция делегата (в названии есть Should"), которая вызывается в момент нажатия кнопки возврата (в данный момент это кнопка "Go" на экранной клавиатуре)
@@ -62,7 +64,10 @@ class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManag
 //        }
         searchTextField.text = ""   //очищаем строку поиска после нажатия кнопки "Go" на экранной клавиатуре или кнопки с изображением лупы
     }
-    
+}
+
+//MARK: - Расширения
+extension WeatherViewController: WeatherManagerDelegate {
     func didUpdateWeather(_ weatherManager: WeatherManager, _ weather: WeatherModel) {
         //print(weather.temperature)
         //обновление погоды (через интернет) напрямую на пользовательский запрещено, только посредством диспетчера очереди
@@ -76,4 +81,3 @@ class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManag
         print(error)
     }
 }
-
