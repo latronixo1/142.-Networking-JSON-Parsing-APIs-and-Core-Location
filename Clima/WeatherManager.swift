@@ -18,15 +18,19 @@ struct WeatherManager {
     
     var delegate: WeatherManagerDelegate?
     
-    func feachWeather(cityName: String) {
+    func fetchWeather(cityName: String) {
         let urlString = "\(weatherURL)&q=\(cityName)"
+        performRequest(urlString)
+    }
+    func fetchWeather(latitude: String, longitude: String) {
+        let urlString = "\(weatherURL)&lat=\(latitude)&lon=\(longitude)"
         performRequest(urlString)
     }
     func performRequest(_ urlString: String) {
         //1. Создать URL-адрес
-        if let url = URL(string: urlString) {
+        if let url = URL(string: urlString) {   //встроенная функция
             //2. Создать URL-сессию
-            let session = URLSession (configuration: .default)
+            let session = URLSession (configuration: .default)  //встроенная функция
             //3. Дать задание сессии
             let task = session.dataTask(with: url) { data, responce, error in
                 if error != nil {
